@@ -67,6 +67,10 @@ echo '<p> <h3> Current Video Database: </h3>';
 
 echo '<table width="700" border ="1"';
 	echo '<tr><th>Name</th><th>Category</th><th>Legnth (minutes)</th><th>Availability</th></tr>';
+	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "barnetal-db", "jVIV8TuG4g2sc4ER", "barnetal-db");
+	if ($mysqli->connect_errno) {
+    	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;
+	}
 	$tableStmt = $mysqli->prepare("SELECT (name, category, length, rented) FROM videos");
 	$tableStmt->bind_param("ssis", $name, $category, $length, $rented);
 	$tableStmt->execute();
