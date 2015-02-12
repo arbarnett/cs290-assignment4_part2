@@ -1,0 +1,3 @@
+Start: Fri, 6 Feb 2015 12:45:00 -0800
+End: Wed, 7 Jan 2015 13:15:00 -0800
+Tasks: Worked on loopback.php 
