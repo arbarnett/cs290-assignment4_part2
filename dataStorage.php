@@ -26,20 +26,59 @@ if ($mysqli->connect_errno) {
   </body>
 </html>
 <?php
+//
 //deal with input from add movie form
+//
+$validName = true;
+$validCategory = true;
+$validLength = true;
 
-//make this happen only if submit has been pressed
-if	(empty($_POST["name"]) || empty($_POST["category"]) || empty($_POST["length"])) {
-	echo"<script type='text/javascript'>alert('Every field must be entered to add a movie.')</script>";
+if($_POST["submit"] == "Submit")
+{
+	if	(empty($_POST["name"]) || empty($_POST["category"]) || empty($_POST["length"])) {
+		echo"<script type='text/javascript'>alert('Every field must be entered to add a movie.')</script>";
+		$validName = $ $validCategory = $validLength = false;
+	}
+
+	if (! is_numeric($_POST["length"])) {
+		echo"<script type='text/javascript'>alert('The length must be a number.')</script>";
+		$validLength = false;
+	}
 }
 
-if (! is_numeric($_POST["length"])) {
-	echo"<script type='text/javascript'>alert('The length must be a number.')</script>";
+if($validName && $validLength && $validCategory) {
+	$rented = "available";
+	$addmovieStmt = $mysqli->prepare("INSERT INTO videos(name,category,length,rented) VALUES (?,?,?,?)"); 
+	$addmovieStmt->bind_param("ssis", $_POST["name"], $_POST["category"], $_POST["length"], $rented);
+	$addmovieStmt->execute();
+	$addmovieStmt->close();
 }
-//get here, we know input is valid
-$rented = 1;
-$addmovieStmt = $mysqli->prepare("INSERT INTO videos(name,category,length,rented) VALUES (?,?,?,?)"); 
-$addmovieStmt->bind_param("ssii", $_POST["name"], $_POST["category"], $_POST["length"], $rented);
-$addmovieStmt->execute();
-$addmovieStmt->close();
+
+//
+//print table with current movie database
+//
+// $tableName = '';
+// $tableCategory = '';
+// $tableLength = 0;
+// $tableRented ='';
+
+
+echo '<p> <h3> Current Video Database: </h3>';
+
+echo '<table width="700" border ="1"';
+	echo '<tr><th>Name</th><th>Category</th><th>Legnth (minutes)</th><th>Availability</th></tr>';
+	$tableStmt = $mysqli->prepare("SELECT (name, category, length, rented) FROM videos");
+	$tableStmt->bind_param("ssis", $name, $category, $length, $rented);
+	$tableStmt->execute();
+	$tableStmt->mysqli_bind_result($resultName, $resultCategory, $resultLength, $resultRented);
+
+	while ($row = mysqli_fetch($tableStmt)) {
+        echo "<tr>";
+        echo "<td>" . $row["tableName"] . "</td>";
+    	echo "<td>" . $row["tableCategory"] . "</td>";
+    	echo "<td>" . $row["tableLength"] . "</td>";
+    	echo "<td>" . $row["tableRengted"] . "</td>";
+    	echo "</tr>";
+    }
+$tableStmt->close();
 ?>
