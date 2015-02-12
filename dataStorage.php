@@ -57,10 +57,10 @@ if($validName && $validLength && $validCategory) {
 //
 //print table with current movie database
 //
-// $tableName = '';
-// $tableCategory = '';
-// $tableLength = 0;
-// $tableRented ='';
+$tableName = '';
+$tableCategory = '';
+$tableLength = 0;
+$tableRented ='';
 
 
 echo '<p> <h3> Current Video Database: </h3>';
@@ -71,18 +71,19 @@ echo '<table width="700" border ="1"';
 	if ($mysqli->connect_errno) {
     	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;
 	}
-	$tableStmt = $mysqli->prepare("SELECT (name, category, length, rented) FROM videos");
-	$tableStmt->bind_param("ssis", $name, $category, $length, $rented);
-	$tableStmt->execute();
-	$tableStmt->mysqli_bind_result($resultName, $resultCategory, $resultLength, $resultRented);
+	$query = "SELECT name, category, length, rented FROM videos";
 
-	while ($row = mysqli_fetch($tableStmt)) {
-        echo "<tr>";
-        echo "<td>" . $row["tableName"] . "</td>";
-    	echo "<td>" . $row["tableCategory"] . "</td>";
-    	echo "<td>" . $row["tableLength"] . "</td>";
-    	echo "<td>" . $row["tableRengted"] . "</td>";
-    	echo "</tr>";
-    }
-$tableStmt->close();
+	if($result = $mysqli->query($query)) {
+		while ($row = $result->fetch_row()) {
+			echo '<tr>';
+			echo '<td>'. $row[0] . '</td>';
+			echo '<td>'. $row[1] . '</td>';
+			echo '<td>'. $row[2] . '</td>';
+			echo '<td>'. $row[3] . '</td>';
+			echo '</tr>';
+		}
+	}
+	echo '</table>'
+	$result->close();
+
 ?>
