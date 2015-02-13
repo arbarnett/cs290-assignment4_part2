@@ -33,7 +33,7 @@ $validName = true;
 $validCategory = true;
 $validLength = true;
 
-if($_POST["submit"] == "submit")
+if(isset($_POST["submit"]))
 {
 	if	(empty($_POST["name"]) || empty($_POST["category"]) || empty($_POST["length"])) {
 		echo"<script type='text/javascript'>alert('Every field must be entered to add a movie.')</script>";
@@ -65,8 +65,8 @@ $tableRented ='';
 
 echo '<p> <h3> Current Video Database: </h3>';
 
-echo '<table width="700" border ="1"';
-	echo '<tr><th>Name</th><th>Category</th><th>Legnth (minutes)</th><th>Availability</th><th></th></tr>';
+echo '<table width="700" border ="1">';
+	echo '<tr><th>Name</th><th>Category</th><th>Legnth (minutes)</th><th>Availability</th><th>Check-Out/Check-In</th><th>Delete?</th></tr>';
 	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "barnetal-db", "jVIV8TuG4g2sc4ER", "barnetal-db");
 	if ($mysqli->connect_errno) {
     	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;
@@ -80,11 +80,19 @@ echo '<table width="700" border ="1"';
 			echo '<td>'. $row[1] . '</td>';
 			echo '<td>'. $row[2] . '</td>';
 			echo '<td>'. $row[3] . '</td>';
-			echo '<td>'.'<input type= "button" name="delete" value="'. htmlspecialchars($row[4]). '">' . '</td>';
+			echo '<td><form method = "POST" action = "updateTable.php">';
+			echo '<input type = "hidden" name= "checkoutid" value='.$row['4'].'\>';
+			echo '<input type = "submit" value= "check-out/check-in".';
+			echo '</form></td>';
+			echo '<td><form method = "POST" action = "updateTable.php">';
+			echo '<input type = "hidden" name= "deleteid" value='.$row['4'].'\>';
+			echo '<input type = "submit" value= "delete".';
+			echo '</form></td>';
 			echo '</tr>';
 		}
 	}
-	echo '</table';
+	echo '</table>';
 	$result->close();
+
 
 ?>
