@@ -2,12 +2,6 @@
 ini_set('display_errors', 'On'); //turns on error reporting
 // include 'storedInfo.php'; //storedInfo.php has password stored as $myPassword
 
-// $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "barnetal-db", "jVIV8TuG4g2sc4ER", "barnetal-db");
-// if ($mysqli->connect_errno) {
-// 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;	
-// } else {
-// 	echo "Connection worked! <br>";
-// }
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,34 +20,6 @@ ini_set('display_errors', 'On'); //turns on error reporting
   </body>
 </html>
 <?php
-//
-//deal with input from add movie form
-//
-// $validName = true;
-// $validCategory = true;
-// $validLength = true;
-
-// if(isset($_POST["submit"]))
-// {
-// 	if	(empty($_POST["name"]) || empty($_POST["category"]) || empty($_POST["length"])) {
-// 		echo"<script type='text/javascript'>alert('Every field must be entered to add a movie.')</script>";
-// 		$validName = $ $validCategory = $validLength = false;
-// 	}
-
-// 	if (! is_numeric($_POST["length"])) {
-// 		echo"<script type='text/javascript'>alert('The length must be a number.')</script>";
-// 		$validLength = false;
-// 	}
-// }
-
-// if($validName && $validLength && $validCategory) {
-// 	$rented = "available";
-// 	$addmovieStmt = $mysqli->prepare("INSERT INTO videos(name,category,length,rented) VALUES (?,?,?,?)"); 
-// 	$addmovieStmt->bind_param("ssis", $_POST["name"], $_POST["category"], $_POST["length"], $rented);
-// 	$addmovieStmt->execute();
-// 	$addmovieStmt->close();
-// }
-
 //
 //print table with current movie database
 //
@@ -80,10 +46,17 @@ echo '<table width="700" border ="1">';
 			echo '<td>'. $row[1] . '</td>';
 			echo '<td>'. $row[2] . '</td>';
 			echo '<td>'. $row[3] . '</td>';
-			echo '<td><form method = "POST" action = "updateTable.php">';
-			echo '<input type = "hidden" name= "checkoutid" value='.$row['4'].'\>';
-			echo '<input type = "submit" value= "check-out/check-in".';
-			echo '</form></td>';
+			if ($row[3] == 'available') {
+				echo '<td><form method = "POST" action = "updateTable.php">';
+				echo '<input type = "hidden" name= "checkoutid" value='.$row['4'].'\>';
+				echo '<input type = "submit" value= "check-out".';
+				echo '</form></td>';
+			} else if ($row[3] == 'rented') {
+				echo '<td><form method = "POST" action = "updateTable.php">';
+				echo '<input type = "hidden" name= "checkinid" value='.$row['4'].'\>';
+				echo '<input type = "submit" value= "check-in".';
+				echo '</form></td>';
+			}
 			echo '<td><form method = "POST" action = "updateTable.php">';
 			echo '<input type = "hidden" name= "deleteid" value='.$row['4'].'\>';
 			echo '<input type = "submit" value= "delete".';
