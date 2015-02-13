@@ -20,7 +20,7 @@ if ($mysqli->connect_errno) {
   	<p>Movie Name: <input type= "text" name= "name" /></p>
   	<p>Category: <input type= "text" name= "category" /></p>
   	<p>Length (in minutes): <input type= "text" name= "length" /></p>
-  	<p><input type = "submit" name = "submit" value = "Submit" /></p>
+  	<p><input type = "submit" name = "submit" value = "submit" /></p>
   	</fieldset>
   </form>
   </body>
@@ -33,7 +33,7 @@ $validName = true;
 $validCategory = true;
 $validLength = true;
 
-if($_POST["submit"] == "Submit")
+if($_POST["submit"] == "submit")
 {
 	if	(empty($_POST["name"]) || empty($_POST["category"]) || empty($_POST["length"])) {
 		echo"<script type='text/javascript'>alert('Every field must be entered to add a movie.')</script>";
@@ -66,12 +66,12 @@ $tableRented ='';
 echo '<p> <h3> Current Video Database: </h3>';
 
 echo '<table width="700" border ="1"';
-	echo '<tr><th>Name</th><th>Category</th><th>Legnth (minutes)</th><th>Availability</th></tr>';
+	echo '<tr><th>Name</th><th>Category</th><th>Legnth (minutes)</th><th>Availability</th><th></th></tr>';
 	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "barnetal-db", "jVIV8TuG4g2sc4ER", "barnetal-db");
 	if ($mysqli->connect_errno) {
     	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;
 	}
-	$query = "SELECT name, category, length, rented FROM videos";
+	$query = "SELECT name, category, length, rented, id FROM videos";
 
 	if($result = $mysqli->query($query)) {
 		while ($row = $result->fetch_row()) {
@@ -80,10 +80,11 @@ echo '<table width="700" border ="1"';
 			echo '<td>'. $row[1] . '</td>';
 			echo '<td>'. $row[2] . '</td>';
 			echo '<td>'. $row[3] . '</td>';
+			echo '<td>'.'<input type= "button" name="delete" value="'. htmlspecialchars($row[4]). '">' . '</td>';
 			echo '</tr>';
 		}
 	}
-	echo '</table>'
+	echo '</table';
 	$result->close();
 
 ?>

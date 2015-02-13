@@ -7,5 +7,5 @@ End: Thurs, 12 Feb 2015 15:00:00 -0800
 Tasks: fixed the validation of input, started work on the table of videos  
 
 Start: Thurs, 12 Feb 2015 16:00:00 -0800
-End: Thurs, 12 Feb 2015 16:32:00 -0800
-Tasks: got table to work
+End: Thurs, 12 Feb 2015 17:20:00 -0800
+Tasks: got table to work, started working on delete button
