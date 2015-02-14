@@ -27,7 +27,7 @@ if(isset($_POST["AddMoviesubmit"]))
 	if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;	
 	} else {
-		echo "Connection worked! <br>";
+		// echo "Connection worked! <br/>";
 	}
 
 	if($validName && $validLength && $validCategory) {
@@ -53,7 +53,7 @@ if(isset($_POST["checkoutid"]))
 	if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;	
 	} else {
-		echo "Connection worked! <br>";
+		// echo "Connection worked! <br/>";
 	}
 
 	$checkoutMovieStmt = $mysqli->prepare("UPDATE videos SET rented = ? WHERE id= ?"); 
@@ -78,7 +78,7 @@ if(isset($_POST["checkinid"]))
 	if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;	
 	} else {
-		echo "Connection worked! <br>";
+		// echo "Connection worked! <br/>";
 	}
 
 	$checkinMovieStmt = $mysqli->prepare("UPDATE videos SET rented = ? WHERE id= ?"); 
@@ -101,7 +101,7 @@ if(isset($_POST["deleteid"]))
 	if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;	
 	} else {
-		echo "Connection worked! <br>";
+		// echo "Connection worked! <br/>";
 	}
 
 	$deleteMovieStmt = $mysqli->prepare("DELETE FROM videos WHERE id= ?"); 
@@ -121,7 +121,7 @@ if(isset($_POST["deleteAll"]))
 	if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;	
 	} else {
-		echo "Connection worked! <br>";
+		// echo "Connection worked! <br>";
 	}
 
 	$deleteAllMovieStmt = $mysqli->prepare("DELETE FROM videos"); 

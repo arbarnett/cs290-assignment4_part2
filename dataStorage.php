@@ -23,30 +23,48 @@ ini_set('display_errors', 'On'); //turns on error reporting
 //
 //print table with current movie database
 //
-echo '<p> <h3> Current Video Database: </h3>';
+echo '<p> <h3> Current Video Database: </h3> </p>';
 
-echo '<form method="POST">';
-echo '<select>';
-echo '<option name="categoryChoice" value="All Categories">All Categories</option>';
+//Drop down Category Option List
+if (isset($_POST["categoryChoice"])){
+	$categorySelect = $_POST["categoryChoice"];
+} else {
+	$categorySelect = 'All Categories';
+}
+echo '<p> <h5>Select a Category:</h5></p>';
+echo '<form method="POST" action="dataStorage.php">';
+echo '<select name="categoryChoice">';
+echo '<option value="All Categories">All Categories</option>';
 $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "barnetal-db", "jVIV8TuG4g2sc4ER", "barnetal-db");
 	if ($mysqli->connect_errno) {
     	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ")" . $mysqli->connect_error;
 	}
 $query = "SELECT DISTINCT category FROM videos";
 
-if($result = $mysqli->query($query)) {
-		while ($row = $result->fetch_row()) {
-			echo '<option name="categoryChoice" value="'.$row[0].'">'.$row[0].'</option>';
+if($categoryResult = $mysqli->query($query)) {
+		while ($row = $categoryResult->fetch_row()) {
+			$selected ='';
+			if ($row[0] == $categorySelect) {
+				$selected = 'selected';
+			}
+			echo '<option value="'.$row[0].'" '.$selected.'>'.$row[0].'</option>';
 		}
 }
 echo '</select>';
+echo '<input type="submit" value="update category"/>';
 echo '</form>';
+echo '<br/>';
 
-$result->close();
+$categoryResult->close();
 
 echo '<table width="700" border ="1">';
 	echo '<tr><th>Name</th><th>Category</th><th>Legnth (minutes)</th><th>Availability</th><th>Check-Out/Check-In</th><th>Delete?</th></tr>';
-	$query = "SELECT name, category, length, rented, id FROM videos";
+	
+	if ($categorySelect != 'All Categories') {
+		$query = "SELECT name, category, length, rented, id FROM videos WHERE category = '". $categorySelect."'";
+	} else {
+		$query = "SELECT name, category, length, rented, id FROM videos";
+	}
 
 	if($result = $mysqli->query($query)) {
 		while ($row = $result->fetch_row()) {
@@ -76,7 +94,7 @@ echo '<table width="700" border ="1">';
 	echo '</table>';
 	$result->close();
 
-echo '<p>';
+echo '<br/>';
 echo '<form method="POST" action="updateTable.php">';
 echo '<input type="hidden" name="deleteAll" value="Delete All"/>';
 echo '<input type="submit" value="Delete All"/>';
