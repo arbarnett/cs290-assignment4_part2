@@ -14,8 +14,8 @@ if(isset($_POST["AddMoviesubmit"]))
 		echo " to go to go back to the video page.\n";
 	}
 
-	if (! is_numeric($_POST["length"])) {
-		echo"<script type='text/javascript'>alert('The length must be a number.')</script>";
+	if (! is_numeric($_POST["length"]) || $_POST["length"]<0) {
+		echo"<script type='text/javascript'>alert('The length must be a positive number.')</script>";
 		$validLength = false;
 		echo "Click ";
 		echo "<a href=http://web.engr.oregonstate.edu/~barnetal/dataStorage.php>here</a>";
